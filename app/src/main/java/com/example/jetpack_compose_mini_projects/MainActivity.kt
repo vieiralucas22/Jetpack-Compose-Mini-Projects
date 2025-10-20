@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,20 +22,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
-
-            NavHost(navController = navController, startDestination = Routes.ScreenA, builder = {
-                composable (Routes.ScreenA)
-                {
-                    ScreenA(navController)
-                }
-
-                composable (Routes.ScreenB+"/{name}")
-                {
-                    val name = it.arguments?.getString("name")
-                    ScreenB(navController, name?: "No name")
-                }
-            })
+            val viewModel = ViewModelProvider(this)[StateTestViewModel::class.java]
+            StateTestScreen(viewModel)
         }
     }
 }
